@@ -1,0 +1,13 @@
+<h1>Passing Get Variables to Phooey</h1>
+<div id="copy">
+  <?php if(varset('name') && varset('color')): ?>
+    <p><strong>Well, hello. Who's <?php h($vars['name']);?>? And what's with the color <?php h($vars['color']); ?>?</strong></p>
+  <?php endif; ?>
+  <p>Get Variables can be passed to Phooey pages using a pretty URL. The format is like so: <a href="/demos/getvars/get/Jason/Green">/demos/getvars/get/Jason/Green</a>.
+    That is the page url, then the word &quot;get&quot;, then the values separated by forward slashes.</p>
+  <p>Get variables passed this way are included in the $vars array which is accessible to all pages and template parts.
+    Each value is given a named index in the $vars array. This is done by setting the &quot;querystring&quot; parameter 
+    for the page in the structure.yml file. This page's querystring parameter is set to &quot;name/color&quot;.
+    </p>
+  <p>You can also use a traditional query string with a ?, but you'll have to use the $_GET superglobal to access those vars.</p>
+</div><!-- end #copy -->

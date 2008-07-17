@@ -1,0 +1,16 @@
+# ---------------------------------------------------------------- #
+#   Each TEMPLATE is a list of PARTS.                              #
+#   PARTS are found in the templates directory.                    #
+# ---------------------------------------------------------------- #
+
+default:
+  - header
+  - inner_header
+  - CONTENT
+  - inner_footer
+  - footer
+
+home:
+  - header
+  - CONTENT
+  - footer

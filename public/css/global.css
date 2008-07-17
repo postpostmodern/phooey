@@ -1,0 +1,22 @@
+body {
+	font: normal 12px "Lucida Grande", "Trebuchet MS", sans-serif;
+}
+#wrapper {
+	width: 800px;
+	margin: 0 auto;
+}
+#primary {
+	padding: 20px 30px;
+	min-height: 400px;
+	position: relative;
+}
+#nav a {
+  color: #900;
+}
+#nav li a.parent {
+  color: #990;
+}
+#nav li a.active {
+  color: #333;
+  font-weight: bold;
+}

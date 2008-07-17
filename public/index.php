@@ -1,0 +1,1 @@
+<?php require_once('../phooey/system/boot.php'); ?>

@@ -1,0 +1,29 @@
+# Pretty URLs
+#------------------------------------------
+AddCharset utf-8 .php
+AddCharset utf-8 .html
+AddCharset utf-8 .css
+AddCharset utf-8 .js
+AddDefaultCharset utf-8
+
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+#	RewriteBase /
+
+	# No www (http://no-www.org/)
+	RewriteCond %{HTTP_HOST} ^www\.example\.com$ [NC]
+	RewriteRule ^(.*)$ http://example.com/$1 [R=301,L]
+	
+	# Protect .svn and .git directories
+	RewriteRule (^|/)\.svn(/|$) - [F]
+	RewriteRule (^|/)\.git(/|$) - [F]
+	
+	# Phooey rules
+	RewriteCond %{REQUEST_FILENAME} -f [OR]
+	RewriteCond %{REQUEST_FILENAME} -d
+	RewriteRule ^.*$ - [L]
+	RewriteRule ^([/0-9a-zA-Z_.-]+)/get/(.*)/?$ /index.php?path=$1&querystring=$2 [QSA,L]
+	RewriteRule ^get/(.*)/?$ /index.php?querystring=$1 [QSA,L]
+	RewriteRule ^([/0-9a-zA-Z_.-]+)/?$ /index.php?path=$1 [QSA,L]
+	RewriteRule ^([/0-9a-zA-Z_.-]+)/?\?(.*)$ /index.php?path=$1&$2 [QSA,L]
+</IfModule>

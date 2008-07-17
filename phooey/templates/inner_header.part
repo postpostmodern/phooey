@@ -1,0 +1,10 @@
+<!-- Begin inner_header -->
+<div id="wrapper">
+<div id="header">
+  PHOOEY!!
+</div>
+<div id="nav">
+  <?php echo nav_list(); ?>
+</div>
+<div id="primary">
+<!-- End inner_header -->

@@ -1,0 +1,31 @@
+<h1>Contact Us</h1>
+<div id="copy">
+  <form action="/contact" method="post" accept-charset="utf-8" id="contact-form">
+    <div id="send-button"><input type="submit" name="send" value="Send" class="button" /></div>
+    <?php echo $vars['notice']; ?>
+    <fieldset id="sender"><legend>Your info:</legend>
+      <table border="0">
+        <tr>
+          <th scope="row"><label for="R_name">Name:</label></th>
+          <td><input type="text" name="R_name" id="R_name" value="<?php echo $vars['mailer']->getData('R_name'); ?>" class="text" /></td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="R_from">Email:</label></th>
+          <td><input type="text" name="R_from" id="R_from" value="<?php echo $vars['mailer']->getData('R_from'); ?>" class="text" /></td>
+        </tr>
+      </table>
+      </fieldset>
+      <fieldset id="message-details"><legend>Message:</legend>
+      <table border="0">
+        <tr>
+          <th scope="row"><label for="R_subject">Subject:</label></th>
+          <td><input type="text" name="R_subject" id="R_subject" value="<?php echo $vars['mailer']->getData('R_subject'); ?>" class="text" /></td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="R_message">Message: </label></th>
+          <td><textarea name="R_message" id="R_message" rows="7" cols="27"><?php echo $vars['mailer']->getData('R_message'); ?></textarea></td>
+        </tr>
+      </table>
+    </fieldset>
+  </form>
+</div><!-- end #copy -->

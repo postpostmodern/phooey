@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------- #
+#   MASTER values are merged with the page-specific values         #
+# ---------------------------------------------------------------- #
+
+site_title: Phooey PHP Site Framework
+
+css:
+  - undohtml
+  - global
+
+ie_css:
+  global_ie: lte IE 6
+
+jsapi: 
+  library: jquery
+  version: 1.2
+
+js:
+  - global
+
+description: Phooey is a tiny little framework to make building mostly-static web sites easy.
+
+keywords: 
+  - php
+  - framework
+  - templating
