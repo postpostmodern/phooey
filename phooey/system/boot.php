@@ -91,7 +91,7 @@ if(array_key_exists($path, $pages)) {
           if(is_array($value)) {
             $page[$key] = array_merge_recursive($master[$key], $value);
           } elseif(is_string($value)) {
-            $page[$key] = $master[$key] . $value;
+            $page[$key] = $value;
           }
       }
       unset($master[$key]);

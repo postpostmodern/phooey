@@ -214,7 +214,7 @@
         var pageTracker = _gat._getTracker(\"{$page['google_analytics_id']}\");
         pageTracker._initData();
         pageTracker._trackPageview();
-      </script>";
+      </script>\n";
     return $tracking_code;
   }
   

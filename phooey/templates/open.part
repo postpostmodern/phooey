@@ -9,4 +9,4 @@
 <?php echo title_tag(); ?>
 </head>
 
-<body>
+<body class="<?php h(body_class()); ?>">
