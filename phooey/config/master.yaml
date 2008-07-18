@@ -9,7 +9,7 @@ css:
   - global
 
 ie_css:
-  global_ie: lte IE 6
+  ie6: lte IE 6
 
 jsapi: 
   library: jquery
