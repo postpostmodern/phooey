@@ -1,3 +1,7 @@
-<?php echo google_analytics(); ?>
-</body>
-</html>
+<!-- Begin inner_footer -->
+  </div><!-- end #primary -->
+  <div id="footer">
+    <p>Copyright &copy; 2008</p>
+  </div>
+</div><!-- end #wrapper -->
+<!-- End inner_footer -->

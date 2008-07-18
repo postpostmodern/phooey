@@ -26,14 +26,4 @@
     return $vars;
   }
   
-  function get_time($vars) {
-    $vars['time'] = date('g:i a');
-    return $vars;
-  }
-  
-  function get_date($vars) {
-    $vars['date'] = date('l, F jS, Y');
-    return $vars;
-  }
-  
 ?>

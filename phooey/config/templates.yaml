@@ -4,13 +4,8 @@
 # ---------------------------------------------------------------- #
 
 default:
-  - header
-  - inner_header
-  - CONTENT
-  - inner_footer
-  - footer
-
-home:
+  - open
   - header
   - CONTENT
   - footer
+  - close

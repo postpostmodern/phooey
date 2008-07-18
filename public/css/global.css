@@ -1,14 +1,13 @@
 body {
-	font: normal 12px "Lucida Grande", "Trebuchet MS", sans-serif;
+  font: normal 12px "Lucida Grande", "Trebuchet MS", sans-serif;
 }
 #wrapper {
-	width: 800px;
-	margin: 0 auto;
+  width: 800px;
+  margin: 0 auto;
 }
 #primary {
-	padding: 20px 30px;
-	min-height: 400px;
-	position: relative;
+  padding: 20px 30px;
+  position: relative;
 }
 #nav a {
   color: #900;

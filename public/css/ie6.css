@@ -1,6 +1,23 @@
-h2 {
-	height: 1%;
+/* ================== IE.css ==================== *\
+|*        Rules here apply to all versions        *|
+|*        of Internet Explorer for Windows        *|
+|*        prior to and including version 6        *|
+\* ============================================== */
+
+/* Setting position:relative on anything containing 
+   floated elements, as well as floated elements 
+   themselves helps floated elements behave. */
+#wrapper {
+	position: relative;
 }
-#copy {
-	height: 1%;
+/* Setting height:1% makes elements
+  stretch vertically to enclose floated elements. */
+#main, #primary {
+  height: 1%;
 }
+/* Setting display:inline helps fix margins of 
+   floated elements */
+#primary, #secondary {
+  display: inline;
+}
+

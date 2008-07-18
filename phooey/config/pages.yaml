@@ -3,42 +3,11 @@
 # ---------------------------------------------------------------- #
 
 home:
-  template: home
-  css:
-    - home
+  title: Home
 
-about:
-  title: About
-
-demos:
-  redirect: /demos/contact
-
-  subpages:
-    contact:
-      vars:
-        to: someone@example.com
-      title: Contact Form
-      css:
-        - contact
-      action: process_contact_form
-  
-    getvars:
-      title: Pass Get Variables
-      querystring: name/color
-      
-      subpages:
-        querystring:
-          title: Passing Get Variables with a Query String
-          
-        pretty-urls:
-          title: Passing Get Variables with pretty URLs
-      
-    actions:
-      title: Running Actions Before a Page Loads
-      actions:
-        - get_time
-        - get_date
-      
-license:
-  title: License
+contact:
+  vars:
+    to: someone@example.com
+  title: Contact Us
+  action: process_contact_form
   

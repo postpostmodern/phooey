@@ -2,10 +2,10 @@
 #   MASTER values are merged with the page-specific values         #
 # ---------------------------------------------------------------- #
 
-site_title: Phooey PHP Site Framework
+site_title: New Phooey Site
 
 css:
-  - undohtml
+  - reset
   - global
 
 ie_css:
@@ -19,7 +19,7 @@ js:
   - global
 
 meta:
-  description: Phooey is a tiny little framework to make building mostly-static web sites easy.
-  keywords: php, framework, templating
-  author: Jason T Johnson — postpostmodern.com
-  copyright: (c) Copyright 2008 Jason T Johnson
+  description: 
+  keywords: 
+  author: 
+  copyright: 
