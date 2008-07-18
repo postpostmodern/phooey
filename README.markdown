@@ -24,7 +24,9 @@ Not all web sites are web applications, nor are they all blogs (which are applic
 * Google Analytics tracking code built-in
 * A bunch of other goodies
 
-If you're like me, you probably have a bunch of files that you use as a starting place for every site. And every time you start a site, you have to copy those files to a new project, go through and strip out stuff and replace it with new info, figure out how you're going to keep from having to duplicate the header, sidebar, nav and other code on each page, download the latest jQuery or Prototype, and so on. I wrote Phooey to basically automate all that stuff. The primary goal was to abstract the unique parts from the boilerplate stuff.
+If you're like me, you probably have a bunch of files that you use as a starting place for every site. And every time you start a site, you have to copy those files to a new project, go through and strip out stuff and replace it with new info, figure out how you're going to keep from having to duplicate the header, sidebar, nav and other code on each page, download the latest jQuery or Prototype, and so on. 
+
+I wrote Phooey to basically automate all that stuff. The primary goal was to abstract the unique parts from the boilerplate stuff.
 
 ### Here's the basic idea
 
