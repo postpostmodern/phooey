@@ -1,7 +1,7 @@
 <!-- Begin inner_header -->
 <div id="wrapper">
   <div id="header">
-    <div id="logo"></div>
+    <div id="logo">New Phooey Site</div>
   </div>
   <div id="nav">
     <?php echo nav_list(1); ?>

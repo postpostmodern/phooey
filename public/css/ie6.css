@@ -7,7 +7,7 @@
 /* Setting position:relative on anything containing 
    floated elements, as well as floated elements 
    themselves helps floated elements behave. */
-#wrapper {
+#wrapper, #nav, #primary {
 	position: relative;
 }
 /* Setting height:1% makes elements
@@ -17,7 +17,26 @@
 }
 /* Setting display:inline helps fix margins of 
    floated elements */
-#primary, #secondary {
+#secondary {
   display: inline;
 }
 
+/* For the nav */
+#nav li {
+  float: left;
+}
+#nav li, #nav a {
+  display: inline;
+}
+#nav {
+  height: 1%;
+}
+
+/* For the contact form */
+.formrow, div.send {
+  height: 1%;
+}
+#contact-form, #contact-info, label, texarea, input, button, #flash-notice img {
+  display: inline;
+  position: relative;
+}

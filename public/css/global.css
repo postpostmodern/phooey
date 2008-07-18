@@ -9,6 +9,14 @@ body {
   background: #fff;
 }
 
+#header {
+  font-size: 24px;
+  font-weight: bold;
+  background: #666;
+  color: #ccc;
+  text-transform: uppercase;
+  padding: 30px 20px;
+}
 #nav {
   background: #999;
   overflow: hidden;

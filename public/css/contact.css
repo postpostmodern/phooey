@@ -62,4 +62,5 @@ div.send {
 }
 #contact-form {
   width: 460px;
+  float: left;
 }
