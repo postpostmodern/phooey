@@ -1,21 +1,54 @@
 body {
   font: normal 12px "Lucida Grande", "Trebuchet MS", sans-serif;
+  background: #eee;
 }
+
 #wrapper {
   width: 800px;
   margin: 0 auto;
+  background: #fff;
 }
+
+#nav {
+  background: #999;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+  #nav a {
+    float: left;
+    padding: 5px 20px;
+    margin: 0 10px;
+    background: #eee;
+    color: #666;
+    text-decoration: none;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+  }
+  #nav a:hover {
+    background: #ccc;
+    color: #666;
+  }
+  
 #primary {
   padding: 20px 30px;
   position: relative;
+  overflow: hidden;
+  border-top: solid 5px #666;
+  border-bottom: solid 5px #666;
 }
-#nav a {
-  color: #900;
-}
-#nav li a.parent {
-  color: #990;
-}
-#nav li a.active {
-  color: #333;
-  font-weight: bold;
+  #primary h1 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 0 20px 0;
+    padding: 2px 0;
+    border-bottom: solid 1px #666;
+  }
+
+#footer {
+  text-align: center;
+  font-size: 10px;
+  clear: both;
+  background: #999;
+  color: #fff;
+  padding: 5px 10px;
 }

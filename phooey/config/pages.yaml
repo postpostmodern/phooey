@@ -6,8 +6,11 @@ home:
   title: Home
 
 contact:
-  vars:
-    to: someone@example.com
   title: Contact Us
   action: process_contact_form
+  css:
+    - contact
+  vars:
+    to: 
+      - Some One <someone@example.com>
   

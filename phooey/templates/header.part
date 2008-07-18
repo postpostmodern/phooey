@@ -4,7 +4,7 @@
     <div id="logo"></div>
   </div>
   <div id="nav">
-    <?php echo nav_list(); ?>
+    <?php echo nav_list(1); ?>
   </div>
   <div id="primary">
 <!-- End inner_header -->

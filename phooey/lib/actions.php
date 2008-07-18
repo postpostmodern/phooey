@@ -4,13 +4,12 @@
   
   function process_contact_form($vars) {
     // Process mail form
-    $notice = '';
+    $notice = '<p>All fields are required.</p>';
     $sent = false;
     require_once('PostPostMailer.class.php');
     $mailer = new PostPostMailer();
-    $mailer->addField('phone');
-    $mailer->setNotice('missing', "Looks like you didn't fill everything in. Please check all of the required fields and try again.");
-    $mailer->setNotice('success', "Thanks for contacting us. We will get back with you via phone or email very soon!");
+    $mailer->setNotice('missing', "Please check all of the fields and try again.");
+    $mailer->setNotice('success', "Thank you for contacting us. We'll be in touch.");
     if(isset($_POST['send'])) {
       $data = $_POST['mail'];
       $data['R_to'] = join(', ', $vars['to']);
