@@ -53,6 +53,48 @@
     return $title_string;
   }
   
+  function meta_tags() {
+    global $page;
+    
+    $meta_http = array(
+      'Content-Type'     => 'text/html; charset=utf-8',
+      'Content-Language' => 'en-us',
+      'imagetoolbar'     => 'no'
+    );
+    $meta_name = array(
+      'rating'                    => 'General',
+      'MSSmartTagsPreventParsing' => 'true'
+    );
+    
+    if(array_key_exists('meta_http', $page))
+      $meta_http = array_merge($meta_http, $page['meta_http']);
+    if(array_key_exists('meta', $page))
+      $meta_name = array_merge($meta_name, $page['meta']);
+    
+    $meta = '';
+    
+    foreach($meta_http as $key => $val) {
+      $equiv   = trim(htmlspecialchars($key));
+      $content = trim(htmlspecialchars($val));
+      if(!empty($content))
+        $meta .= "  <meta http-equiv='$equiv' content='$content' />\n";
+    }
+    
+    foreach($meta_name as $key => $val) {
+      $name    = trim(htmlspecialchars($key));
+      $content = trim(htmlspecialchars($val));
+      if(!empty($content))
+        $meta .= "  <meta name='$name' content='$content' />\n";
+    }
+    
+    return $meta;
+  
+  }
+  
+  function title_tag() {
+    return "  <title>".title()."</title>\n";
+  }
+
   function active_nav_class($link) {
     global $page;
     global $home_page;
@@ -147,7 +189,7 @@
       $list .= "<li class='$active_class'>";
       if($href) 
         $list .= "<a class='$active_class' href='/$href'>";
-      $list .= "$label</a>";
+      $list .= "$label";
       if($href)
         $list .= "</a>";
       if($level < $depth && array_key_exists('subpages', $page_data)) {

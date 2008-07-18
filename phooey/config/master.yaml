@@ -18,9 +18,8 @@ jsapi:
 js:
   - global
 
-description: Phooey is a tiny little framework to make building mostly-static web sites easy.
-
-keywords: 
-  - php
-  - framework
-  - templating
+meta:
+  description: Phooey is a tiny little framework to make building mostly-static web sites easy.
+  keywords: php, framework, templating
+  author: Jason T Johnson — postpostmodern.com
+  copyright: (c) Copyright 2008 Jason T Johnson
