@@ -23,3 +23,5 @@ meta:
   keywords: 
   author: 
   copyright: 
+  
+content_filter: markdown

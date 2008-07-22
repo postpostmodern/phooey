@@ -9,6 +9,8 @@ define('LIB_DIR',       PRIVATE_DIR.'lib/');
 define('SYSTEM_DIR',    PRIVATE_DIR.'system/');
 define('TEMPLATE_DIR',  PRIVATE_DIR.'templates/');
 define('CONTENT_DIR',   PRIVATE_DIR.'content/');
+define('PLUGINS_DIR',   PRIVATE_DIR.'plugins/');
+define('FILTERS_DIR',   PLUGINS_DIR.'content_filters/');
 
 // Defaults
 define('DEFAULT_HOME_PAGE',   'home');
@@ -78,7 +80,7 @@ if(array_key_exists($path, $pages)) {
   }
   
   // Set the page's content file
-  $content = CONTENT_DIR.$path.'.page';
+  $content_file = CONTENT_DIR.$path.'.page';
 
   // Combine page values with master values
   foreach($page as $key => $value) {
@@ -136,9 +138,31 @@ if(array_key_exists($path, $pages)) {
 
   // Build page parts based on template
   if(array_key_exists($template, $templates)) {
-    foreach($templates[$template] as $part) {
-      if($part == 'CONTENT' && file_exists($content)) {
-        include($content);
+    $parts = $templates[$template];
+    $has_content = in_array('CONTENT', $parts) && file_exists($content_file);
+    $eval_php = (!array_key_exists('eval_php', $page) || $page['eval_php'] === true);
+    $content_filter = array_key_exists('content_filter', $page) ? $page['content_filter'] : false;
+    
+    if($has_content) {
+      if($eval_php) {
+        ob_start();
+        require_once($content_file);
+        $content = ob_get_contents();
+        ob_end_clean();
+      } else {
+        $content = file_get_contents($content_file);
+      }
+      if($content_filter) {
+        require_once(FILTERS_DIR . $content_filter . '/init.php');
+        $content = call_user_func($content_filter, $content);
+      }
+    } else {
+      $content = '';
+    }
+    
+    foreach($parts as $part) {
+      if($part == 'CONTENT') {
+        echo $content;
       } elseif(file_exists(TEMPLATE_DIR.$part.'.part')) {
         include(TEMPLATE_DIR.$part.'.part');
       }

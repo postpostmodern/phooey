@@ -51,7 +51,10 @@ body {
     padding: 2px 0;
     border-bottom: solid 1px #666;
   }
-
+  #primary p {
+    margin: 10px 0;
+  }
+  
 #footer {
   text-align: center;
   font-size: 10px;
