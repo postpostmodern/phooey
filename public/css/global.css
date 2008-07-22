@@ -30,7 +30,7 @@ body {
     color: #666;
     text-decoration: none;
     -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
+    -webkit-border-radius: 12px;
   }
   #nav a:hover {
     background: #ccc;
