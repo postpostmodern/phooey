@@ -13,4 +13,5 @@ contact:
   vars:
     to: 
       - Some One <someone@example.com>
-  
+guide:
+  title: Markup Guide
