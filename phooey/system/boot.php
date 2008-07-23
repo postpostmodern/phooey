@@ -58,6 +58,12 @@ $home_page = array_key_exists('home_page', $master) ? $master['home_page'] : DEF
 $path = array_key_exists('path', $_GET) ? $_GET['path'] : $home_page;
 $path = trim($path, '/');
 
+// Redirect /home to /
+if(array_key_exists('path', $_GET) && $_GET['path'] == $home_page) {
+  header("Location: /");
+  exit;
+}
+
 // Reformat nested_pages array to flat list of pages
 $pages = array();
 extract_pages($nested_pages);

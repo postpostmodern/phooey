@@ -172,9 +172,16 @@
   }
   
   function nav_list_from_tree($level, $depth, $tree, $parent_path) {
+    global $home_page;
     $list = '<ul class="nav">';
     foreach($tree as $page_name => $page_data) {
-      $href = array_key_exists('redirect', $page_data) && $level < $depth && array_key_exists('subpages', $page_data) ? false : htmlspecialchars($parent_path . $page_name);
+      if(array_key_exists('redirect', $page_data) && $level < $depth && array_key_exists('subpages', $page_data)) {
+        $href = false;
+      } elseif($parent_path . $page_name == $home_page) {
+        $href = '';
+      } else {
+        $href = htmlspecialchars($parent_path . $page_name);
+      }
       if(array_key_exists('nav_label', $page_data)) {
         if(empty($page_data['nav_label'])) {
           break;
@@ -187,7 +194,7 @@
       }
       $active_class = active_nav_class($href);
       $list .= "<li class='$active_class'>";
-      if($href) 
+      if($href !== false) 
         $list .= "<a class='$active_class' href='/$href'>";
       $list .= "$label";
       if($href)
