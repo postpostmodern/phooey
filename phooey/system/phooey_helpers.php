@@ -161,19 +161,19 @@
     return !empty($vars[$varname]);
   }
   
-  function nav_list($depth=1000, $parent=false) {
+  function nav_data($depth=1000, $parent=false) {
     global $nested_pages;
     global $pages;
     if($parent && array_key_exists('subpages', $pages[$parent])) {
-      return nav_list_from_tree(1, $depth, $pages[$parent]['subpages'], $parent.'/');
+      return nav_data_from_tree(1, $depth, $pages[$parent]['subpages'], $parent.'/');
     } else {
-      return nav_list_from_tree(1, $depth, $nested_pages, '');
+      return nav_data_from_tree(1, $depth, $nested_pages, '');
     }
   }
   
-  function nav_list_from_tree($level, $depth, $tree, $parent_path) {
+  function nav_data_from_tree($level, $depth, $tree, $parent_path) {
     global $home_page;
-    $list = '<ul class="nav">';
+    $nav_data = array();
     foreach($tree as $page_name => $page_data) {
       if(array_key_exists('redirect', $page_data) && $level < $depth && array_key_exists('subpages', $page_data)) {
         $href = false;
@@ -193,21 +193,41 @@
         $label = htmlspecialchars(ucwords($page_name));
       }
       $active_class = active_nav_class($href);
-      $list .= "<li class='$active_class'>";
-      if($href !== false) 
-        $list .= "<a class='$active_class' href='/$href'>";
-      $list .= "$label";
-      if($href)
+      $subpages = ($level < $depth && array_key_exists('subpages', $page_data)) ? nav_data_from_tree($level+1, $depth, $page_data['subpages'], $parent_path . $page_name . '/') : false;
+      
+      $nav_data[] = array(
+        'page_path'      => $parent_path . $page_name,
+        'page_name'    => $page_name,
+        'parent_path'  => $parent_path,
+        'active_class' => $active_class,
+        'href'         => $href,
+        'label'        => $label,
+        'subpages'     => $subpages,
+        'level'        => $level
+      );      
+    }
+    return $nav_data;
+  }
+  
+  function nav_list($depth=1000, $parent=false) {
+    $nav_data = nav_data($depth, $parent);
+    $list = '<ul class="nav">';
+    foreach($nav_data as $page_data) {
+      $list .= "<li class='{$page_data['active_class']}'>";
+      if($page_data['href'] !== false) 
+        $list .= "<a class='{$page_data['active_class']}' href='/{$page_data['href']}'>";
+      $list .= $page_data['label'];
+      if($page_data['href'])
         $list .= "</a>";
-      if($level < $depth && array_key_exists('subpages', $page_data)) {
-        $list .= nav_list_from_tree($level+1, $depth, $page_data['subpages'], $parent_path . $page_name . '/');
+      if($page_data['subpages']) {
+        $list .= nav_list($depth, $page_data['page_path']);
       }
       $list .= '</li>';
     }
     $list .= '</ul>';
     return $list;
   }
-  
+    
   function google_analytics() {
     global $page;
     if(!array_key_exists('google_analytics_id', $page))
