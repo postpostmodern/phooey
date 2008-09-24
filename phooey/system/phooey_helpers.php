@@ -92,7 +92,7 @@
   }
   
   function title_tag() {
-    return "  <title>".title()."</title>\n";
+    return "  <title>".htmlspecialchars(title())."</title>\n";
   }
 
   // Sets class to active if active current page
@@ -220,6 +220,7 @@
     $page_data = $pages[$page_path];
     $parent_path = parent($page_path);
     $page_name = name($page_path);
+    $exclude = $page_data['nav_exclude'] == 'true';
     if($page_path == $home_page) {
       $href = '';
     } else {
@@ -263,6 +264,7 @@
       'active_class' => $active_class,
       'href'         => '/'.$href,
       'label'        => $label,
+      'exclude'      => $exclude
     );
   }
   
@@ -270,7 +272,7 @@
     $nav_data = nav_data($depth, $parent);
     $list = '<ul class="nav">';
     foreach($nav_data as $page_data) {
-      if($page_data['label']) {
+      if(!$page_data['exclude'] && $page_data['label']) {
         $list .= "<li class='{$page_data['active_class']}'>";
         if($page_data['href'] !== false) 
           $list .= "<a class='{$page_data['active_class']}' href='{$page_data['href']}'>";
