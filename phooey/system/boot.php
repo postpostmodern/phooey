@@ -78,6 +78,7 @@ if(array_key_exists($path, $pages)) {
   // Set the page's path in the $page array
   $page = $pages[$path];
   $page['path'] = $path;
+  $page['vars'] = is_array($page['vars']) ? $page['vars'] : array();
 
   // Check for redirect
   if(array_key_exists('redirect', $page)) {
