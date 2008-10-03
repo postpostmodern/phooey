@@ -221,10 +221,13 @@
     $parent_path = parent($page_path);
     $page_name = name($page_path);
     $exclude = $page_data['nav_exclude'] == 'true';
+    $nav_class = array_key_exists('nav_class', $page_data) ? $page_data['nav_class'] : preg_replace('/[^\w\d]/i', '-', $page_name);
     if($page_path == $home_page) {
-      $href = '';
+      $href = '/';
+    } elseif(array_key_exists('redirect', $page_data)) {
+      $href = $page_data['redirect'];
     } else {
-      $href = htmlspecialchars($page_path);
+      $href = '/'.htmlspecialchars($page_path);
     }
     if(array_key_exists('nav_label', $page_data)) {
       if(empty($page_data['nav_label'])) {
@@ -240,6 +243,9 @@
     
     // Set active class
     $active_class = active_nav_class($href);
+    
+    // Is it an external link?
+    $external = stripos($href, 'http://') == 0;
     
     // Find next and previous pages
     $siblings = array();
@@ -262,9 +268,11 @@
       'page_name'    => $page_name,
       'parent_path'  => $parent_path,
       'active_class' => $active_class,
-      'href'         => '/'.$href,
+      'nav_class'    => $nav_class,
+      'href'         => $href,
       'label'        => $label,
-      'exclude'      => $exclude
+      'exclude'      => $exclude,
+      'external'     => $external
     );
   }
   
@@ -273,17 +281,18 @@
     $list = '<ul class="nav">';
     foreach($nav_data as $page_data) {
       if(!$page_data['exclude'] && $page_data['label']) {
-        $list .= "<li class='{$page_data['active_class']}'>";
+        $rel = $page_data['external'] ? "rel='external'" : '';
+        $list .= "<li class='{$page_data['active_class']} {$page_data['nav_class']}'>";
         if($page_data['href'] !== false) 
-          $list .= "<a class='{$page_data['active_class']}' href='{$page_data['href']}'>";
+          $list .= "<a class='{$page_data['active_class']} {$page_data['nav_class']}' $rel href='{$page_data['href']}'>";
         $list .= $page_data['label'];
         if($page_data['href'])
           $list .= "</a>";
+        if($page_data['subpages']) {
+          $list .= nav_list($depth, $page_data['page_path']);
+        }
+        $list .= '</li>';
       }
-      if($page_data['subpages']) {
-        $list .= nav_list($depth, $page_data['page_path']);
-      }
-      $list .= '</li>';
     }
     $list .= '</ul>';
     return $list;
