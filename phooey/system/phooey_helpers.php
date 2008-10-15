@@ -224,7 +224,7 @@
     $nav_class = array_key_exists('nav_class', $page_data) ? $page_data['nav_class'] : preg_replace('/[^\w\d]/i', '-', $page_name);
     if($page_path == $home_page) {
       $href = '/';
-    } elseif(array_key_exists('redirect', $page_data)) {
+    } elseif(array_key_exists('redirect', $page_data) && (stripos($page_data['redirect'], 'http://') === 0)) {
       $href = $page_data['redirect'];
     } else {
       $href = '/'.htmlspecialchars($page_path);
@@ -245,7 +245,7 @@
     $active_class = active_nav_class($href);
     
     // Is it an external link?
-    $external = stripos($href, 'http://') == 0;
+    $external = stripos($href, 'http://') === 0;
     
     // Find next and previous pages
     $siblings = array();
