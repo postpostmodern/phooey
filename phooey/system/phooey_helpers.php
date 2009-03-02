@@ -142,10 +142,17 @@
     if(!array_key_exists('jsapi', $page))
       return '';
     
-    $library = $page['jsapi']['library'];
-    $version = $page['jsapi']['version'];
     $jsapi  = "  <script type='text/javascript' src='http://www.google.com/jsapi'></script>\n";
-    $jsapi .= "  <script type='text/javascript'>google.load('$library', '$version');</script>\n";
+    
+    foreach($page['jsapi'] as $lib) {
+      if(is_array($lib) && count($lib) == 2) {
+        $library = $lib[0];
+        $version = $lib[1];
+        $jsapi .= "  <script type='text/javascript'>google.load('$library', '$version');</script>\n";
+      } else {
+        trigger_error( "Incorrect jsapi designation in config. Missing version?", E_USER_WARNING );
+      }
+    }
     
     return $jsapi;
   }

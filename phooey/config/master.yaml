@@ -12,8 +12,7 @@ ie_css:
   ie6: lte IE 6
 
 jsapi: 
-  library: jquery
-  version: 1.2
+  - [ jquery, 1.2 ]
 
 js:
   - global
@@ -24,4 +23,7 @@ meta:
   author: 
   copyright: 
   
-content_filter: markdown
+content_filter: 
+  - markdown
+  - smartypants
+

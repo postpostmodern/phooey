@@ -160,8 +160,13 @@ if(array_key_exists($path, $pages)) {
         $content = file_get_contents($content_file);
       }
       if($content_filter) {
-        require_once(FILTERS_DIR . $content_filter . '/init.php');
-        $content = call_user_func($content_filter, $content);
+        if(!is_array($content_filter)) {
+          $content_filter = array($content_filter);
+        }
+        foreach($content_filter as $filter) {
+          require_once(FILTERS_DIR . $filter . '/init.php');
+          $content = call_user_func($filter, $content);
+        }
       }
     } else {
       $content = '';
