@@ -1,4 +1,4 @@
-<!-- Begin inner_header -->
+<!-- Begin header -->
 <div id="wrapper">
   <div id="header">
     <div id="logo">New Phooey Site</div>
@@ -7,4 +7,4 @@
     <?php echo nav_list(1); ?>
   </div>
   <div id="primary">
-<!-- End inner_header -->
+<!-- End header -->
