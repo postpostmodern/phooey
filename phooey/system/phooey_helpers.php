@@ -1,26 +1,79 @@
 <?php
 
-  function css_tags() {
+
+  function lang()
+  {
+    global $page;
+    return array_key_exists('language', $page) ? $page['language'] : 'en';
+  }
+  
+  function is_xhtml()
+  {
+    return !(strpos(doctype(), 'XHTML') === false);
+  }
+  
+  function tag_closer()
+  {
+    global $page;
+    return is_xhtml() ? ' /' : '';
+  }
+
+  function doctype()
+  {
+    global $page;
+    return array_key_exists('doctype', $page) ? $page['doctype'] : 'XHTML 1.0 Strict';
+  }
+  
+  function doctype_tag()
+  {
+    global $page;
+    $doctype_tags = array(
+      'HTML 4.01 Strict'        => "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>",
+      'HTML 4.01 Transitional'  => "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>",
+      'HTML 4.01 Frameset'      => "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Frameset//EN' 'http://www.w3.org/TR/html4/frameset.dtd'>",
+      'XHTML 1.0 Strict'        => "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>",
+      'XHTML 1.0 Transitional'  => "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>",
+      'XHTML 1.0 Frameset'      => "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Frameset//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd'>",
+      'XHTML 1.1'               => "<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>",
+      'HTML 5'                  => "<!DOCTYPE html>"
+    );
+    return $doctype_tags[doctype()]."\n";
+  }
+  
+  function html_tag()
+  {
+    global $page;
+    $lang = lang();
+    $tag = "<html";
+    $tag .= is_xhtml() ? " xmlns='http://www.w3.org/1999/xhtml' xml:lang='$lang'" : '';
+    $tag .= strpos(doctype(), 'XHTML 1.1') === false ? " lang='$lang'" : '';
+    $tag .= ">\n";
+    return $tag;
+  }
+  
+  function css_tags() 
+  {
     global $page;
     $css_tags = '';
     if(array_key_exists('css', $page) && is_array($page['css'])) {
       foreach($page['css'] as $css) {
         if(is_array($css)) {
-          $css_tags .= '  <link href="/css/'.$css[0].'.css" rel="stylesheet" type="text/css" media="'.$css['1'].'" charset="utf-8" />'."\n";
+          $css_tags .= '  <link href="/css/'.$css[0].'.css" rel="stylesheet" type="text/css" media="'.$css['1'].'" charset="utf-8"'.tag_closer().'>'."\n";
         } else {
-          $css_tags .= '  <link href="/css/'.$css.'.css" rel="stylesheet" type="text/css" media="all" charset="utf-8" />'."\n";
+          $css_tags .= '  <link href="/css/'.$css.'.css" rel="stylesheet" type="text/css" media="all" charset="utf-8"'.tag_closer().'>'."\n";
         }
       }
     }
     if(array_key_exists('ie_css', $page) && is_array($page['ie_css'])) {
       foreach($page['ie_css'] as $css => $condition) {
-        $css_tags .= '  <!--[if '.$condition.']><link href="/css/'.$css.'.css" rel="stylesheet" type="text/css" media="all" charset="utf-8" /><![endif]-->'."\n";
+        $css_tags .= '  <!--[if '.$condition.']><link href="/css/'.$css.'.css" rel="stylesheet" type="text/css" media="all" charset="utf-8"'.tag_closer().'><![endif]-->'."\n";
       }
     }
     return $css_tags;
   }
   
-  function js_tags() {
+  function js_tags() 
+  {
     global $page;
     $js_tags = google_jsapi();
     if(array_key_exists('js', $page) && is_array($page['js'])) {
@@ -31,12 +84,14 @@
     return $js_tags;
   }
   
-  function keywords() {
+  function keywords() 
+  {
     global $page;
     return implode(', ', $page['keywords']);
   }
   
-  function description() {
+  function description() 
+  {
     global $page;
     return $page['description'];
   }
@@ -53,12 +108,15 @@
     return $title_string;
   }
   
-  function meta_tags() {
+  function meta_tags() 
+  {
     global $page;
+    
+    $closer = tag_closer();
     
     $meta_http = array(
       'Content-Type'     => 'text/html; charset=utf-8',
-      'Content-Language' => 'en-us',
+      'Content-Language' => lang(),
       'imagetoolbar'     => 'no'
     );
     $meta_name = array(
@@ -77,21 +135,22 @@
       $equiv   = trim(htmlspecialchars($key));
       $content = trim(htmlspecialchars($val));
       if(!empty($content))
-        $meta .= "  <meta http-equiv='$equiv' content='$content' />\n";
+        $meta .= "  <meta http-equiv='$equiv' content='$content'$closer>\n";
     }
     
     foreach($meta_name as $key => $val) {
       $name    = trim(htmlspecialchars($key));
       $content = trim(htmlspecialchars($val));
       if(!empty($content))
-        $meta .= "  <meta name='$name' content='$content' />\n";
+        $meta .= "  <meta name='$name' content='$content'$closer>\n";
     }
     
     return $meta;
   
   }
   
-  function title_tag() {
+  function title_tag() 
+  {
     return "  <title>".htmlspecialchars(title())."</title>\n";
   }
 
@@ -115,28 +174,34 @@
     return $class;
   }
   
-  function render_page($file) {
+  function render_page($file) 
+  {
     include(CONTENT_DIR . $file . '.page');
   }
   
-  function render_part($file) {
+  function render_part($file) 
+  {
     include(TEMPLATE_DIR . $file . '.part');
   }
   
-  function render_content($file) {
+  function render_content($file) 
+  {
     render_page($file);
   }
   
-  function h($string) {
+  function h($string) 
+  {
     echo htmlspecialchars($string);
   }
   
-  function body_class() {
+  function body_class() 
+  {
     global $page;
     return str_replace('/', ' ', $page['path']);
   }
   
-  function google_jsapi() {
+  function google_jsapi() 
+  {
     global $page;
     
     if(!array_key_exists('jsapi', $page))
@@ -157,12 +222,14 @@
     return $jsapi;
   }
   
-  function isvar($varname) {
+  function isvar($varname) 
+  {
     global $vars;
     return array_key_exists($varname, $vars);
   }
   
-  function varset($varname) {
+  function varset($varname) 
+  {
     global $vars;
     if(!isvar($varname))
       return false;
@@ -170,7 +237,8 @@
     return !empty($vars[$varname]);
   }
   
-  function nav_data($depth=1000, $parent=false) {
+  function nav_data($depth=1000, $parent=false) 
+  {
     global $nested_pages;
     global $pages;
     if($parent && array_key_exists('subpages', $pages[$parent])) {
@@ -180,7 +248,8 @@
     }
   }
   
-  function nav_data_from_tree($level, $depth, $tree, $parent_path) {
+  function nav_data_from_tree($level, $depth, $tree, $parent_path) 
+  {
     $nav_data = array();
     foreach($tree as $page_name => $page_data) {
       $current_nav_data = nav_data_for($parent_path . $page_name);
@@ -200,7 +269,8 @@
     return $nav_data;
   }
   
-  function parent($page_path) {
+  function parent($page_path) 
+  {
     if(strpos($page_path, '/') === false) {
       return '';
     }
@@ -210,7 +280,8 @@
     return $parent;
   }
   
-  function name($page_path) {
+  function name($page_path) 
+  {
     if(strpos($page_path, '/') === false) {
       return $page_path;
     }
@@ -218,7 +289,8 @@
     return array_pop($path_parts);
   }
   
-  function nav_data_for($for_page=false) {
+  function nav_data_for($for_page=false) 
+  {
     global $page;
     global $pages;
     global $nested_pages;
@@ -283,7 +355,8 @@
     );
   }
   
-  function nav_list($depth=1000, $parent=false) {
+  function nav_list($depth=1000, $parent=false) 
+  {
     $nav_data = nav_data($depth, $parent);
     $list = '<ul class="nav">';
     foreach($nav_data as $page_data) {
@@ -305,7 +378,8 @@
     return $list;
   }
     
-  function google_analytics() {
+  function google_analytics() 
+  {
     global $page;
     if(!array_key_exists('google_analytics_id', $page))
       return false;

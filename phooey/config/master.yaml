@@ -4,6 +4,10 @@
 
 site_title: New Phooey Site
 
+doctype: XHTML 1.0 Strict
+
+language: en-us
+
 css:
   - reset
   - global
@@ -18,10 +22,10 @@ js:
   - global
 
 meta:
-  description: 
-  keywords: 
-  author: 
-  copyright: 
+  description: Phooey is a simple framework for mostly-static sites.
+  keywords: "PHP, framework, Phooey"
+  author: Jason T Johnson (postpostmodern.com)
+  copyright: (c) 2009 Jason T Johnson
   
 content_filter: 
   - markdown
