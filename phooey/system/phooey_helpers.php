@@ -96,7 +96,8 @@
     return $page['description'];
   }
   
-  function title($separator = ':') {
+  function title($separator = ':') 
+  {
     global $page;
     $title_string = '';
     if(array_key_exists('title', $page))
@@ -156,7 +157,8 @@
 
   // Sets class to active if active current page
   // or parent if current page is a child
-  function active_nav_class($link) {
+  function active_nav_class($link) 
+  {
     global $page;
     global $home_page;
     $link = trim($link, '/');
