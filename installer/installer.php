@@ -66,6 +66,6 @@ function user_install()
 
 
 require_once('phooey/system/spyc.php');
-$files = Spyc::YAMLLoad('install/files.yaml');
+$files = Spyc::YAMLLoad('installer/files.yaml');
 
 $dest_dir = $argv[1];

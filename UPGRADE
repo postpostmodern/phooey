@@ -2,8 +2,8 @@
 <?php
 
 // This script replaces all of Phooey's core system files.
-// Run this file with './UPGRADE.php /path/to/installation'
+// Run this file with './UPGRADE /path/to/installation'
 
-require_once('install/installer.php');
+require_once('installer/installer.php');
 
 core_install();
