@@ -1,0 +1,13 @@
+core:
+  - phooey/system
+  - phooey/plugins
+  - public/.htaccess
+  - public/index.php
+user:
+  - phooey/config
+  - phooey/content
+  - phooey/lib
+  - phooey/templates
+  - public/css
+  - public/js
+  - public/img
