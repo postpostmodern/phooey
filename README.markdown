@@ -35,3 +35,27 @@ I wrote Phooey to basically automate all that stuff. The primary goal was to abs
 * To create templates, you create all the parts (header, footer, nav, sidebar, etc) in separate HTML files and put them in the templates folder.
 * Once the parts are created, you group them by listing them in the templates.yaml file under a nickname.
 * Once the templates are set up, you can create the content (the HTML that is specific to each individual page) in the 'content' folder.
+
+Installation
+------------
+
+When you download Phooey, it's a complete phooey installation with a few example pages. The _public_ folder is meant to be used as the root web directory.
+
+However, it's best to use Phooey as an installer. Once you download Phooey, execute the INSTALL script like so:
+
+    ./INSTALL /path/to/installation
+    
+For example:
+
+    ./INSTALL /Users/jason/Sites/phooey_demo
+    
+This will install all of the core files and some example files. If you want to update/upgrade Phooey, download it again and run the UPGRADE script in the same manner:
+
+    ./UPGRADE /path/to/installation
+    
+That will just replace all of the core files without the example files. It will also leave all of your other files alone.
+
+### UPGRADE Note
+
+The `phooey/templates/open.part` and `phooey/templates/close.part` template files are special. They are not upgraded automatically because some users may want to modify them. 
+When upgrading, it's probably a good idea to check those files against your existing installation to see if they have changed.
