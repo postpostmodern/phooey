@@ -241,12 +241,12 @@
   
   function nav_data($depth=1000, $parent=false) 
   {
-    global $nested_pages;
+    global $config;
     global $pages;
     if($parent && array_key_exists('subpages', $pages[$parent])) {
       return nav_data_from_tree(1, $depth, $pages[$parent]['subpages'], $parent.'/');
     } else {
-      return nav_data_from_tree(1, $depth, $nested_pages, '');
+      return nav_data_from_tree(1, $depth, $config['nested_pages'], '');
     }
   }
   
@@ -295,7 +295,7 @@
   {
     global $page;
     global $pages;
-    global $nested_pages;
+    global $config;
     global $home_page;
     $page_path = $for_page ? $for_page : $page['path'];
     $page_data = $pages[$page_path];

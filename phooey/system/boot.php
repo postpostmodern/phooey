@@ -36,9 +36,9 @@ include_dir(SYSTEM_DIR);
 include_dir(LIB_DIR);
 
 // Load the site's main config files
-$master       = Spyc::YAMLLoad(CONFIG_DIR.'master.yaml');
-$templates    = Spyc::YAMLLoad(CONFIG_DIR.'templates.yaml');
-$nested_pages = Spyc::YAMLLoad(CONFIG_DIR.'pages.yaml');
+$config['master']       = Spyc::YAMLLoad(CONFIG_DIR.'master.yaml');
+$config['templates']    = Spyc::YAMLLoad(CONFIG_DIR.'templates.yaml');
+$config['nested_pages'] = Spyc::YAMLLoad(CONFIG_DIR.'pages.yaml');
 
 // Load the database connection file
 if(file_exists(CONFIG_DIR.'db.yaml'))
@@ -51,7 +51,7 @@ if(!empty($db_conf)) {
 }
 
 // Get the default page
-$home_page = array_key_exists('home_page', $master) ? $master['home_page'] : DEFAULT_HOME_PAGE;
+$home_page = array_key_exists('home_page', $config['master']) ? $config['master']['home_page'] : DEFAULT_HOME_PAGE;
 
 // Get the path
 $path = array_key_exists('path', $_GET) ? $_GET['path'] : $home_page;
@@ -65,7 +65,7 @@ if(array_key_exists('path', $_GET) && $_GET['path'] == $home_page) {
 
 // Reformat nested_pages array to flat list of pages
 $pages = array();
-extract_pages($nested_pages);
+extract_pages($config['nested_pages']);
 
 // If the path doesn't exist in the pages array, reset the path to 404
 if(!array_key_exists($path, $pages)) {
@@ -90,22 +90,22 @@ if(array_key_exists($path, $pages)) {
 
   // Combine page values with master values
   foreach($page as $key => $value) {
-    if(array_key_exists($key, $master)) {
+    if(array_key_exists($key, $config['master'])) {
       // Querystring is a special case
       switch($key) {
         case 'querystring':
           break;
         default:
           if(is_array($value)) {
-            $page[$key] = array_merge_recursive($master[$key], $value);
+            $page[$key] = array_merge_recursive($config['master'][$key], $value);
           } elseif(is_string($value)) {
             $page[$key] = $value;
           }
       }
-      unset($master[$key]);
+      unset($config['master'][$key]);
     }
   }
-  $page = array_merge($page, $master);
+  $page = array_merge($page, $config['master']);
 
   // Add get vars to $page['vars']
   if(isset($_GET['querystring'])) {
@@ -143,8 +143,8 @@ if(array_key_exists($path, $pages)) {
   $template = array_key_exists('template', $page) ? $page['template'] : DEFAULT_TEMPLATE;
 
   // Build page parts based on template
-  if(array_key_exists($template, $templates)) {
-    $parts = $templates[$template];
+  if(array_key_exists($template, $config['templates'])) {
+    $parts = $config['templates'][$template];
     $has_content = in_array('CONTENT', $parts) && file_exists($content_file);
     $eval_php = (!array_key_exists('eval_php', $page) || $page['eval_php'] === true);
     $content_filter = array_key_exists('content_filter', $page) ? $page['content_filter'] : false;
