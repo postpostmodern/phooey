@@ -19,8 +19,7 @@ define('DEFAULT_TEMPLATE',    'default');
 // Function for including entire directories of files
 function include_dir($path) {
   if(!is_dir($path)) {
-    echo "Can not find required directory: $path";
-    exit;
+    trigger_error("Can not find required directory: $path", E_USER_ERROR);
   }
   $dir = dir($path);
   while(($file = $dir->read()) !== false) {
