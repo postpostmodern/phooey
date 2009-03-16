@@ -1,10 +1,10 @@
 <?php # 99% of the time, you won't need to modfify this file. ?>
-<?php echo doctype_tag(); ?>
-<?php echo html_tag(); ?>
+<?php echo $helper->doctype_tag(); ?>
+<?php echo $helper->html_tag(); ?>
 <head>
-<?php echo meta_tags(); ?>
-<?php echo css_tags(); ?>
-<?php echo js_tags(); ?>
-<?php echo title_tag(); ?>
+<?php echo $helper->meta_tags(); ?>
+<?php echo $helper->css_tags(); ?>
+<?php echo $helper->js_tags(); ?>
+<?php echo $helper->title_tag(); ?>
 </head>
-<body class="<?php h(body_class()); ?>">
+<body class="<?php h($helper->body_class()); ?>">

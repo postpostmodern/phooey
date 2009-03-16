@@ -4,7 +4,7 @@
     <div id="logo">New Phooey Site</div>
   </div>
   <div id="nav">
-    <?php echo nav_list(1); ?>
+    <?php echo $helper->nav_list(1); ?>
   </div>
   <div id="primary">
 <!-- End header -->

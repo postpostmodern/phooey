@@ -1,4 +1,4 @@
 <?php # 99% of the time, you won't need to modfify this file. ?>
-<?php echo google_analytics(); ?>
+<?php echo $helper->google_analytics(); ?>
 </body>
 </html>

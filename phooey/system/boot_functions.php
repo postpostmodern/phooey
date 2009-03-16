@@ -1,15 +1,13 @@
 <?php
 
-// Function for flattening nested page array
-function extract_pages($nested_pages, $parent_path = '') {
-  global $pages;
-  foreach($nested_pages as $page_path => $page_data) {
-    $pages[$parent_path.$page_path] = $page_data;
-    if(array_key_exists('subpages', $page_data)) {
-      extract_pages($page_data['subpages'], $parent_path.$page_path.'/');
-    }
-  }
+// This is how empty() should work anyway (accepts any value; not just variables)!
+function is_empty($val)
+{
+  return empty($val);
 }
 
-
-?>
+// Shorthand for using everywhere
+function h($string) 
+{
+  echo htmlspecialchars($string);
+}
