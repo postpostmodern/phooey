@@ -3,7 +3,7 @@
 /**
 * Contains methods for generating html and stuff
 */
-class Helper
+class PhooeyHelper
 {
   public $page;
   
@@ -159,20 +159,6 @@ class Helper
   {
     $page = $this->page->get_page_by_href($link);
     return $page->get_active_class();
-    // global $home_page;
-    // $link = trim($link, '/');
-    // $path = trim($page['path'], '/');
-    // if($link == '')
-    //   $link = $home_page;
-    // if($path == '')
-    //   $path = $home_page;
-    // $class = '';
-    // if($path == $link) {
-    //   $class .= ' active ';
-    // } elseif(strpos($path, $link) === 0) {
-    //   $class .= ' parent ';
-    // }
-    // return $class;
   }
   
   public function render_page($file) 
@@ -222,134 +208,18 @@ class Helper
     return $this->page->is_var_set($varname);
   }
   
-  // public function nav_data($depth=1000, $parent=false) 
-  // {
-  //   if(!$parent) {
-  //     $pages = 
-  //   global $config;
-  //   global $pages;
-  //   if($parent && array_key_exists('subpages', $pages[$parent])) {
-  //     return nav_data_from_tree(1, $depth, $pages[$parent]['subpages'], $parent.'/');
-  //   } else {
-  //     return nav_data_from_tree(1, $depth, $config['nested_pages'], '');
-  //   }
-  // }
-  // 
-  // public function nav_data_from_tree($level, $depth, $tree, $parent_path) 
-  // {
-  //   $nav_data = array();
-  //   foreach($tree as $page_name => $page_data) {
-  //     $current_nav_data = nav_data_for($parent_path . $page_name);
-  //     // Don't link if it's a category
-  //     if(array_key_exists('redirect', $page_data) && $level < $depth && array_key_exists('subpages', $page_data)) {
-  //       $current_nav_data['href'] = false;
-  //     }
-  //     // Get subpage nav_data
-  //     if($level < $depth && array_key_exists('subpages', $page_data)) {
-  //       $current_nav_data['subpages'] = nav_data_from_tree($level+1, $depth, $page_data['subpages'], $current_nav_data['page_path'] . '/');
-  //     } else {
-  //       $current_nav_data['subpages'] = false;
-  //     }
-  //     // Add current_nav_data to nav_data
-  //     $nav_data[] = $current_nav_data;
-  //   }
-  //   return $nav_data;
-  // }
-  // 
-  // public function parent($page_path) 
-  // {
-  //   if(strpos($page_path, '/') === false) {
-  //     return '';
-  //   }
-  //   $path_parts = explode('/', $page_path);
-  //   array_pop($path_parts);
-  //   $parent = implode('/', $path_parts);
-  //   return $parent;
-  // }
-  // 
-  // public function name($page_path) 
-  // {
-  //   if(strpos($page_path, '/') === false) {
-  //     return $page_path;
-  //   }
-  //   $path_parts = explode('/', $page_path);
-  //   return array_pop($path_parts);
-  // }
-  // 
-  // public function nav_data_for($for_page=false) 
-  // {
-  //   global $pages;
-  //   global $config;
-  //   global $home_page;
-  //   $page_path = $for_page ? $for_page : $page['path'];
-  //   $page_data = $pages[$page_path];
-  //   $parent_path = parent($page_path);
-  //   $page_name = name($page_path);
-  //   $exclude = $page_data['nav_exclude'] == 'true';
-  //   $nav_class = array_key_exists('nav_class', $page_data) ? $page_data['nav_class'] : preg_replace('/[^\w\d]/i', '-', $page_name);
-  //   if($page_path == $home_page) {
-  //     $href = '/';
-  //   } elseif(array_key_exists('redirect', $page_data) && (stripos($page_data['redirect'], 'http://') === 0)) {
-  //     $href = $page_data['redirect'];
-  //   } else {
-  //     $href = '/'.htmlspecialchars($page_path);
-  //   }
-  //   if(array_key_exists('nav_label', $page_data)) {
-  //     if(empty($page_data['nav_label'])) {
-  //       $label = false;
-  //     } else {
-  //       $label = htmlspecialchars($page_data['nav_label']);
-  //     }
-  //   } elseif(array_key_exists('title', $page_data)) {
-  //     $label = htmlspecialchars($page_data['title']);
-  //   } else {
-  //     $label = htmlspecialchars(ucwords($page_name));
-  //   }
-  //   
-  //   // Set active class
-  //   $active_class = active_nav_class($href);
-  //   
-  //   // Is it an external link?
-  //   $external = stripos($href, 'http://') === 0;
-  //   
-  //   // Find next and previous pages
-  //   $siblings = array();
-  //   foreach($pages as $key => $val) {
-  //     if($parent_path == parent($key)) {
-  //       $siblings[] = $key;
-  //     }
-  //   }
-  //   while(current($siblings) != $page_path) {
-  //     $prev = current($siblings);
-  //     next($siblings);
-  //   }
-  //   $next = next($siblings);
-  //   
-  //   // Put it all together
-  //   return array(
-  //     'prev'         => $prev,
-  //     'page_path'    => $page_path,
-  //     'next'         => $next,
-  //     'page_name'    => $page_name,
-  //     'parent_path'  => $parent_path,
-  //     'active_class' => $active_class,
-  //     'nav_class'    => $nav_class,
-  //     'href'         => $href,
-  //     'label'        => $label,
-  //     'exclude'      => $exclude,
-  //     'external'     => $external
-  //   );
-  // }
-  
-  public function nav_list($depth=1000, $parent=false) 
+  public function nav_data($for_page=false) 
   {
-    return '';
-    
-    
-    
-    $nav_data = nav_data($depth, $parent);
+    $page = $for_page ? $this->page->get_page($for_page) : $page;
+    $page->get_nav_data();
+  }
+  
+  public function nav_list($depth=1000, $parent=false, $count=1) 
+  {
+    $pages = $parent ? $parent->get_subpages() : $this->page->site->root_pages;
     $list = '<ul class="nav">';
-    foreach($nav_data as $page_data) {
+    foreach($pages as $page) {
+      $page_data = $page->get_nav_data();
       if(!$page_data['exclude'] && $page_data['label']) {
         $rel = $page_data['external'] ? "rel='external'" : '';
         $list .= "<li class='{$page_data['active_class']} {$page_data['nav_class']}'>";
@@ -358,8 +228,8 @@ class Helper
         $list .= $page_data['label'];
         if($page_data['href'])
           $list .= "</a>";
-        if($page_data['subpages']) {
-          $list .= nav_list($depth, $page_data['page_path']);
+        if($page->get_subpages() && $count < $depth) {
+          $list .= nav_list($depth, $page_data['page_path'], $count+1);
         }
         $list .= '</li>';
       }

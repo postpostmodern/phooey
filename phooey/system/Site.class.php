@@ -5,11 +5,12 @@
 */
 class Site
 {
-  public $pages     = array();
+  public $pages      = array();
+  public $root_pages = array();
   public $page               ;
-  public $page_tree = array();
-  public $master    = array();
-  public $templates = array();
+  public $page_tree  = array();
+  public $master     = array();
+  public $templates  = array();
   
   function __construct($config)
   {
@@ -19,6 +20,9 @@ class Site
     $page_data = $this->extract_pages($this->page_tree);
     foreach($page_data as $key => $data) {
       $this->pages[$key] = new Page($key, $data, $this);
+    }
+    foreach($this->page_tree as $key => $val) {
+      $this->root_pages[$key] = $this->pages[$key];
     }
   }
   

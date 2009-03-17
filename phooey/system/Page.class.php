@@ -60,8 +60,9 @@ class Page
   
   public function get_parents()
   {
+    if(!$parent_keys = $this->get_parent_keys()) return false;
     $parents = array();
-    foreach($this->get_parent_keys() as $key) {
+    foreach($parent_keys as $key) {
       $parents[] = $this->site->pages[$key];
     }
     return empty($parents) ? false : $parents;
@@ -145,7 +146,7 @@ class Page
   
   public function is_child_of($key)
   {
-    in_array($key, $this->get_parents());
+    return $this->get_parents() ? in_array($key, $this->get_parents()) : false;
   }
   
   public function is_home()
@@ -229,7 +230,7 @@ class Page
     return in_array('CONTENT', $this->get_template()) && file_exists($this->get_content_file());
   }
   
-  public function get_content()
+  public function get_content($vars)
   {
     if(!$this->has_content()) return '';
 
@@ -283,7 +284,7 @@ class Page
   
   public function set_vars($vars)
   {
-    return array_merge_recursive($this->data['vars'], $vars);
+    $this->data['vars'] = array_merge_recursive($this->data['vars'], $vars);
   }
   
   public function is_parent_of($key)
@@ -298,15 +299,35 @@ class Page
     $this->active = true;
     $this->parse_querystring($request->get_querystring());
     $parts = $this->get_template();
+    $actions = new Actions($this);
+    if($action_list = $this->get_actions()) {
+      foreach($action_list as $action) {
+        if(method_exists($actions, $action)) {
+          $this->set_vars(call_user_func(array($actions, $action)));
+        }
+      }
+    }
     $helper = new Helper($this);
+    $vars = $this->get_vars();
     foreach($parts as $part) {
       if($part == 'CONTENT') {
-        echo $this->get_content();
+        echo $this->get_content($vars);
       } elseif(file_exists(TEMPLATE_DIR.$part.'.part')) {
         include(TEMPLATE_DIR.$part.'.part');
       } else {
         trigger_error("Template part not found: $part", E_USER_NOTICE);
       }
+    }
+  }
+  
+  public function get_actions()
+  {
+    $action = $this->get_data('action');
+    $actions = $this->get_data('actions', array());
+    if($action) {
+      return array($action);
+    } else {
+      return $actions;
     }
   }
 

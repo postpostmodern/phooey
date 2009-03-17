@@ -1,8 +1,17 @@
 <?php
 
-  # Each action takes the $vars array and returns a new $vars array
+/**
+* Actions process your data before rendering the page
+* Designate one or more actions in your page definition (pages.yaml)
+*/
+class Actions extends PhooeyActions
+{
   
-  function process_contact_form($vars) {
+  function __construct($page) { parent::__construct($page); }
+
+  # To use values in your views, return them as an array
+  
+  public function process_contact_form() {
     // Process mail form
     $notice = '<p>All fields are required.</p>';
     $sent = false;
@@ -12,17 +21,18 @@
     $mailer->setNotice('success', "Thank you for contacting us. We'll be in touch.");
     if(isset($_POST['send'])) {
       $data = $_POST['mail'];
-      $data['R_to'] = join(', ', $vars['to']);
+      $data['R_to'] = join(', ', $this->vars['to']);
       $sent = $mailer->send($data);
     }
     if($mailer->getNotice() != '') {
       $class = $mailer->getCode() == 'success' ? 'success' : 'note';
       $notice = '<p class="'.$class.'">'.$mailer->getNotice().'</p>';  
     }
-    $vars['sent'] = $sent;
-    $vars['notice'] = $notice;
-    $vars['mailer'] = $mailer;
-    return $vars;
+    return array('sent'   => $sent,
+                 'notice' => $notice,
+                 'mailer' => $mailer);
   }
   
+}
+
 ?>
