@@ -263,8 +263,7 @@ class Page
   
   public function is_var_set($varkey)
   {
-    $val = $this->is_var($varkey) ? trim($this->data['vars'][$varkey]) : '';
-    return !empty($val);
+    return ($this->is_var($varkey) && !is_empty(trim($this->data['vars'][$varkey])));
   }
   
   public function get_vars()
@@ -274,7 +273,7 @@ class Page
   
   public function get_var($varkey, $default=NULL)
   {
-    return $this->is_var($var_key) ? $this->data['vars'][$varkey] : $default;
+    return $this->is_var($varkey) ? $this->data['vars'][$varkey] : $default;
   }
   
   public function set_var($varkey, $val)
