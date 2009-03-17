@@ -103,9 +103,9 @@ class Page
     reset($pages);
     while(list($key, $page) = each($pages)) {
       if($key == $this->key) {
-        prev($pages);
-        return prev($pages);
+        return $prev;
       }
+      $prev = $page;
     }
     return false;
   }

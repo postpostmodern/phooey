@@ -33,7 +33,7 @@ class Site
     foreach($page_tree as $page_path => $page_data) {
       $pages[$parent_path.$page_path] = $page_data;
       if(array_key_exists('subpages', $page_data)) {
-        extract_pages($page_data['subpages'], $parent_path.$page_path.'/');
+        $this->extract_pages($page_data['subpages'], $parent_path.$page_path.'/');
       }
     }
     return $pages;
