@@ -59,3 +59,17 @@ That will just replace all of the core files without the example files. It will 
 
 The `phooey/templates/open.part` and `phooey/templates/close.part` template files are special. They are not upgraded automatically because some users may want to modify them. 
 When upgrading, it's probably a good idea to check those files against your existing installation to see if they have changed.
+
+Upgrading from Phooey (1) to Phooey 2
+-------------------------------------
+
+Phooey, or Phooey 1 was entirely procedural and was mostly compatible with PHP 4. Phooey 2 is the Object-Oriented version of Phooey. It runs on PHP 5 or greater. It is not completely backwards-compatible with Phooey 1. Thus, the normal install/upgrade scripts will only get you part of the way there. The primary things you need to look for are:
+
+* Actions are now encapsulated in the Actions class.
+  * You need to put all of your action functions into the Action class. (see phooey/lib/Actions.class.php)
+  * Actions no longer take an argument, but they have access to `$this->vars` and `$this->page`.
+  * Actions no longer need to return the entire $vars array. Just the elements that need adding/changing.
+* Helpers are now encapuslated in the Helper class.
+  * You need to put all of your helper functions into the Helper class. (see phooey/lib/Helper.class.php)
+  * All calls to the helper functions should now be prepended with `$helper->`
+* Update your open.part and close.part files with the new helper methods.
