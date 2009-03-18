@@ -125,7 +125,7 @@ class Page
     $subpages = array();
     if(!$this->get_data('subpages')) return false;
     foreach($this->get_data('subpages') as $key => $data) {
-      $subpages[$key] = $this->site->pages[$key];
+      $subpages[$this->key.'/'.$key] = $this->site->pages[$this->key.'/'.$key];
     }
     return $subpages;
   }
