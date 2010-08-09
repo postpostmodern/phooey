@@ -14,7 +14,8 @@ allowed_methods:
   - GET
 
 css:
-  - [ all.css, all ]
+  - [ reset.css, all ]
+  - [ global.css, all ]
 
 ie_css:
   ie6: lte IE 6
