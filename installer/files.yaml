@@ -4,6 +4,7 @@ core:
   - public/.htaccess
   - public/index.php
 user:
+  - phooey/config
   - phooey/site
   - public/css
   - public/js
