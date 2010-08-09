@@ -3,6 +3,7 @@
 <?php echo $helper->html_tag(); ?>
 <head>
 <?php echo $helper->meta_tags(); ?>
+<?php echo $helper->link_tags(); ?>
 <?php echo $helper->css_tags(); ?>
 <?php echo $helper->js_tags(); ?>
 <?php echo $helper->title_tag(); ?>

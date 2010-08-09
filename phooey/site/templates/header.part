@@ -7,4 +7,5 @@
     <?php echo $helper->nav_list(1); ?>
   </div>
   <div id="primary">
+    <div id="content">
 <!-- End header -->

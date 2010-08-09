@@ -28,9 +28,12 @@ class Actions extends PhooeyActions
       $class = $mailer->getCode() == 'success' ? 'success' : 'note';
       $notice = '<p class="'.$class.'">'.$mailer->getNotice().'</p>';  
     }
-    return array('sent'   => $sent,
-                 'notice' => $notice,
-                 'mailer' => $mailer);
+    return array('sent'      => $sent,
+                 'notice'    => $notice,
+                 'R_name'    => $mailer->getData('R_name'),
+                 'R_from'    => $mailer->getData('R_from'),
+                 'R_subject' => $mailer->getData('R_subject'),
+                 'R_message' => $mailer->getData('R_message'));
   }
   
 }

@@ -37,8 +37,14 @@ class PhooeyHelper
     return $this->get_data('doctype', 'XHTML 1.0 Strict');
   }
   
+  public function charset()
+  {
+    return $this->get_data('charset', 'utf-8');
+  }
+  
   public function doctype_tag()
   {
+    $charset = $this->charset();
     $doctype_tags = array(
       'HTML 4.01 Strict'        => "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>",
       'HTML 4.01 Transitional'  => "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>",
@@ -46,7 +52,7 @@ class PhooeyHelper
       'XHTML 1.0 Strict'        => "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>",
       'XHTML 1.0 Transitional'  => "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>",
       'XHTML 1.0 Frameset'      => "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Frameset//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd'>",
-      'XHTML 1.1'               => "<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>",
+      'XHTML 1.1'               => "<?xml version='1.0' encoding='$charset'?>\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>",
       'HTML 5'                  => "<!DOCTYPE html>"
     );
     return $doctype_tags[$this->doctype()]."\n";
@@ -56,8 +62,8 @@ class PhooeyHelper
   {
     $lang = $this->lang();
     $tag = "<html";
-    $tag .= $this->is_xhtml() ? " xmlns='http://www.w3.org/1999/xhtml' xml:lang='$lang'" : '';
-    $tag .= strpos($this->doctype(), 'XHTML 1.1') === false ? " lang='$lang'" : '';
+    $tag .= $this->is_xhtml() ? " xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"$lang\"" : '';
+    $tag .= strpos($this->doctype(), "XHTML 1.1") === false ? " lang=\"$lang\"" : '';
     $tag .= ">\n";
     return $tag;
   }
@@ -69,23 +75,69 @@ class PhooeyHelper
     $ie_css_files = $this->get_data('ie_css', array());
     foreach($css_files as $css) {
       if(is_array($css)) {
-        $css_tags .= '  <link href="/css/'.$css[0].'.css" rel="stylesheet" type="text/css" media="'.$css['1'].'" charset="utf-8"'.$this->tag_closer().'>'."\n";
+        $css_file = strpos($css[0], '/') === false ? $this->page->site->root.'css/'.$css[0] : $css[0];
+        $css_tags .= '  <link href="'.$css_file.'" rel="stylesheet" type="text/css" media="'.$css['1'].'"'.$this->tag_closer().'>'."\n";
       } else {
-        $css_tags .= '  <link href="/css/'.$css.'.css" rel="stylesheet" type="text/css" media="all" charset="utf-8"'.$this->tag_closer().'>'."\n";
+        $css_file = strpos($css, '/') === false ? $this->page->site->root.'css/'.$css : $css;
+        $css_tags .= '  <link href="'.$css_file.'" rel="stylesheet" type="text/css" media="all" '.$this->tag_closer().'>'."\n";
       }
     }
     foreach($ie_css_files as $css => $condition) {
-      $css_tags .= '  <!--[if '.$condition.']><link href="/css/'.$css.'.css" rel="stylesheet" type="text/css" media="all" charset="utf-8"'.$this->tag_closer().'><![endif]-->'."\n";
+      $css_file = strpos($css, '/') === false ? $this->page->site->root.'css/'.$css : $css;
+      $css_tags .= '  <!--[if '.$condition.']><link href="'.$css_file.'" rel="stylesheet" type="text/css" media="all" '.$this->tag_closer().'><![endif]-->'."\n";
     }
     return $css_tags;
   }
   
+  public function link_tags() 
+  {
+    $link_tags = '';
+    $links = $this->get_data('links', array());
+
+    $favicon = $this->get_data('favicon', false);
+    if($favicon) {
+      $links[] = array(
+        'rel'  => "shortcut icon",
+        'type' => "image/ico",
+        'href' => ($favicon === true ? $this->page->site->root."favicon.ico" : $favicon)
+      );
+    }
+
+    foreach($links as $link) {
+      $rel   = '';
+      $href  = '';
+      $type  = '';
+      $rev   = '';
+      $media = '';
+      if(is_array($link)) {
+        if(count($link) == 2) {
+          $rel   = 'rel="';
+          $rel  .= array_key_exists('rel', $link)  ? $link['rel']  : $link[0];
+          $rel  .= '" ';
+          $href  = 'href="';
+          $href .= array_key_exists('href', $link) ? $link['href'] : $link[1];
+          $href .= '" ';
+        } else {
+          $rel    = array_key_exists('rel',   $link) ? 'rel="'   .$link['rel'].  '" ' : '';
+          $href   = array_key_exists('href',  $link) ? 'href="'  .$link['href']. '" ' : '';
+          $media  = array_key_exists('media', $link) ? 'media="' .$link['media'].'" ' : '';
+          $rev    = array_key_exists('rev',   $link) ? 'rev="'   .$link['rev'].  '" ' : '';
+          $type   = array_key_exists('type',  $link) ? 'type="'  .$link['type']. '" ' : '';
+        }
+      }
+      $link_tags .= '  <link '.$href.$media.$rel.$rev.$type.$this->tag_closer().'>'."\n";
+    }
+    return $link_tags;
+  }
+  
   public function js_tags() 
   {
+    $charset = $this->charset();
     $js_tags = $this->google_jsapi();
     $js_files = $this->get_data('js', array());
     foreach($js_files as $js) {
-      $js_tags .= '  <script src="/js/'.$js.'.js" type="text/javascript" charset="utf-8"></script>'."\n";
+      $js_file = strpos($js, '/') === false ? $this->page->site->root.'js/'.$js : $js;
+      $js_tags .= '  <script src="'.$js_file.'" type="text/javascript" charset="'.$charset.'"></script>'."\n";
     }
     return $js_tags;
   }
@@ -117,10 +169,12 @@ class PhooeyHelper
     $closer = $this->tag_closer();
     
     $meta_http = array(
-      'Content-Type'     => 'text/html; charset=utf-8',
       'Content-Language' => $this->lang(),
       'imagetoolbar'     => 'no'
     );
+    if($this->doctype() != 'HTML 5') {
+      $meta_http['Content-Type'] = 'text/html; charset='.$this->charset();
+    }
     $meta_name = array(
       'rating'                    => 'General',
       'MSSmartTagsPreventParsing' => 'true'
@@ -135,17 +189,28 @@ class PhooeyHelper
       $equiv   = trim(htmlspecialchars($key));
       $content = trim(htmlspecialchars($val));
       if(!empty($content))
-        $meta .= "  <meta http-equiv='$equiv' content='$content'$closer>\n";
+        $meta .= "  <meta http-equiv=\"$equiv\" content=\"$content\"$closer>\n";
     }
     
     foreach($meta_name as $key => $val) {
       $name    = trim(htmlspecialchars($key));
       $content = trim(htmlspecialchars($val));
       if(!empty($content))
-        $meta .= "  <meta name='$name' content='$content'$closer>\n";
+        $meta .= "  <meta name=\"$name\" content=\"$content\"$closer>\n";
     }
     
     return $meta;
+  }
+  
+  public function meta_charset_tag()
+  {
+    $charset = $this->charset();
+    $closer = $this->tag_closer();
+    if($this->doctype() == 'HTML 5') {
+      return "  <meta charset=\"$charset\"$closer>\n";
+    } else {
+      return '';
+    }
   }
   
   public function title_tag() 
@@ -163,12 +228,12 @@ class PhooeyHelper
   
   public function render_page($file) 
   {
-    include(CONTENT_DIR . $file . '.page');
+    include($this->page->site->template_dir . $file . '.page');
   }
   
   public function render_part($file) 
   {
-    include(TEMPLATE_DIR . $file . '.part');
+    include($this->page->site->template_dir . $file . '.part');
   }
   
   public function render_content($file) 
@@ -184,12 +249,12 @@ class PhooeyHelper
   public function google_jsapi() 
   {
     if(!$libs = $this->get_data('jsapi')) return '';
-    $jsapi  = "  <script type='text/javascript' src='http://www.google.com/jsapi'></script>\n";
+    $jsapi  = "  <script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>\n";
     foreach($libs as $lib) {
       if(is_array($lib) && count($lib) == 2) {
         $library = $lib[0];
         $version = $lib[1];
-        $jsapi .= "  <script type='text/javascript'>google.load('$library', '$version');</script>\n";
+        $jsapi .= "  <script type=\"text/javascript\">google.load(\"$library\", \"$version\");</script>\n";
       } else {
         trigger_error( "Incorrect jsapi designation in config. Missing version?", E_USER_WARNING );
       }
@@ -216,21 +281,28 @@ class PhooeyHelper
   
   public function nav_list($depth=1000, $parent=false, $count=1) 
   {
-    $pages = $parent ? $parent->get_subpages() : $this->page->site->root_pages;
+    $parent = $this->page->get_page($parent);
+    $pages = $parent ? $parent->get_children() : $this->page->site->get_root_pages();
+    if(!$pages) return false;
     $list = '<ul class="nav">';
     foreach($pages as $page) {
-      $page_data = $page->get_nav_data();
-      if(!$page_data['exclude'] && $page_data['label']) {
-        $rel = $page_data['external'] ? "rel='external'" : '';
-        $list .= "<li class='{$page_data['active_class']} {$page_data['nav_class']}'>";
-        if($page_data['href'] !== false) 
-          $list .= "<a class='{$page_data['active_class']} {$page_data['nav_class']}' $rel href='{$page_data['href']}'>";
-        $list .= $page_data['label'];
-        if($page_data['href'])
+      if(!$page->get_nav_exclude() && $page->get_nav_label()) {
+        
+        $rel          = $page->is_external_redirect() ? "rel='external'" : '';
+        $active_class = htmlspecialchars($page->get_active_class());
+        $nav_class    = htmlspecialchars($page->get_nav_class());
+        $href         = $page->get_href();
+        $label        = htmlspecialchars($page->get_nav_label());
+        
+        $class = trim("$active_class $nav_class");
+        $list .= "<li class='$class'>";
+        if($href !== false) 
+          $list .= "<a class='$class' $rel href='$href'>";
+        $list .= $label;
+        if($href !== false)
           $list .= "</a>";
-        if($page->get_subpages() && $count < $depth) {
-          $list .= nav_list($depth, $page_data['page_path'], $count+1);
-        }
+        if($page->get_children() && $count < $depth)
+          $list .= $this->nav_list($depth, $page, $count+1);
         $list .= '</li>';
       }
     }
@@ -243,15 +315,16 @@ class PhooeyHelper
     if(!$ga_id = $this->get_data('google_analytics_id'))
       return false;
     $tracking_code = "
-      <script type=\"text/javascript\">
-        var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
-        document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
-      </script>
-      <script type=\"text/javascript\">
-        var pageTracker = _gat._getTracker(\"$ga_id\");
-        pageTracker._initData();
-        pageTracker._trackPageview();
-      </script>\n";
+<script type=\"text/javascript\">
+  var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
+  document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
+</script>
+<script type=\"text/javascript\">
+  try {
+  var pageTracker = _gat._getTracker(\"$ga_id\");
+  pageTracker._trackPageview();
+  } catch(err) {}
+</script>\n";
     return $tracking_code;
   }
 

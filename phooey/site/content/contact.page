@@ -4,21 +4,21 @@
   <fieldset id="sender"><legend>Your info:</legend>
     <div class="formrow">
       <label for="R_name">Your Name:</label>
-      <input type="text" name="mail[R_name]" id="R_name" value="<?php echo $vars['mailer']->getData('R_name'); ?>" class="text" />
+      <input type="text" name="mail[R_name]" id="R_name" value="<?php echo $vars['R_name']; ?>" class="text" />
     </div>
     <div class="formrow">
       <label for="R_from">Your Email:</label>
-      <input type="text" name="mail[R_from]" id="R_from" value="<?php echo $vars['mailer']->getData('R_from'); ?>" class="text" />
+      <input type="text" name="mail[R_from]" id="R_from" value="<?php echo $vars['R_from']; ?>" class="text" />
     </div>
   </fieldset>
   <fieldset id="message-details"><legend>Message:</legend>
     <div class="formrow">
       <label for="R_subject">Subject:</label>
-      <input type="text" name="mail[R_subject]" id="R_subject" value="<?php echo $vars['mailer']->getData('R_subject'); ?>" class="text" />
+      <input type="text" name="mail[R_subject]" id="R_subject" value="<?php echo $vars['R_subject']; ?>" class="text" />
     </div>
     <div class="formrow">
       <label for="R_message">Message: </label>
-      <textarea name="mail[R_message]" id="R_message" rows="7" cols="27"><?php echo $vars['mailer']->getData('R_message'); ?></textarea>
+      <textarea name="mail[R_message]" id="R_message" rows="7" cols="27"><?php echo $vars['R_message']; ?></textarea>
     </div>
   </fieldset>
 </form>

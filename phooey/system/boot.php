@@ -2,21 +2,21 @@
 
 // Directories
 
-define('PHOOEY_DIR',    dirname(__FILE__).'/../');
-define('PUBLIC_DIR',    dirname(__FILE__).'/../../public/');
-define('SITE_DIR',      PHOOEY_DIR.'site/');
-define('CONFIG_DIR',    SITE_DIR.'config/');
-define('LIB_DIR',       SITE_DIR.'lib/');
-define('TEMPLATE_DIR',  SITE_DIR.'templates/');
-define('CONTENT_DIR',   SITE_DIR.'content/');
-define('SYSTEM_DIR',    PHOOEY_DIR.'system/');
-define('PLUGINS_DIR',   PHOOEY_DIR.'plugins/');
-define('FILTERS_DIR',   PLUGINS_DIR.'content_filters/');
+define('PHOOEY_DIR',        dirname(__FILE__).'/../');
+define('PUBLIC_DIR',        dirname(__FILE__).'/../../public/');
+                            
+define('SITE_DIR',          PHOOEY_DIR. 'site/');
+                            
+define('SYSTEM_DIR',        PHOOEY_DIR. 'system/');
+define('GLOBAL_CONFIG_DIR', PHOOEY_DIR. 'config/');
+define('SYSTEM_INC_DIR',    SYSTEM_DIR. 'inc/');
+define('PLUGINS_DIR',       PHOOEY_DIR. 'plugins/');
+define('FILTERS_DIR',       PLUGINS_DIR.'content_filters/');
 
 // Defaults
-define('PHOOEY_ROOT',         '/'   );
-define('DEFAULT_HOME_PAGE',   'home'   );
-define('DEFAULT_TEMPLATE',    'default');
+$GLOBALS['defaults']['home_page']       = 'home';
+$GLOBALS['defaults']['template']        = 'default';
+$GLOBALS['defaults']['request_methods'] = array('GET', 'POST', 'PUT', 'DELETE');
 
 // Function for including entire directories of files
 function include_dir($path) {
@@ -33,25 +33,20 @@ function include_dir($path) {
 }
 
 // Include Phooey core files
-include_dir(SYSTEM_DIR);
+include_dir(SYSTEM_INC_DIR);
 // Include Site-specific files
-include_dir(LIB_DIR);
-
-// Load the site's main config files
-$config['master']       = Spyc::YAMLLoad(CONFIG_DIR.'master.yaml');
-$config['templates']    = Spyc::YAMLLoad(CONFIG_DIR.'templates.yaml');
-$config['pages']        = Spyc::YAMLLoad(CONFIG_DIR.'pages.yaml');
+include_dir(SITE_DIR.'lib/');
 
 // Load the database connection file
-if(file_exists(CONFIG_DIR.'db.yaml'))
-  $config['db'] = Spyc::YAMLLoad(CONFIG_DIR.'db.yaml');
-
-// Connect to a database if config is set
-if(array_key_exists('db', $config) && !empty($config['db'])) {
-  $db = mysql_pconnect($config['db']['hostname'], $config['db']['username'], $config['db']['password']);
-  mysql_select_db($config['db']['database'], $db);
+if(file_exists(GLOBAL_CONFIG_DIR.'db.yaml')) {
+  $db_config = Spyc::YAMLLoad(GLOBAL_CONFIG_DIR.'db.yaml');
+  // Connect to a database if config is set
+  if(!empty($db_config)) {
+    $db = @mysql_connect($db_config['hostname'], $db_config['username'], $db_config['password']);
+    @mysql_select_db($db_config['database'], $db);
+  }
 }
 
 $request = new Request();
-$site = new Site($config);
+$site = new Site(SITE_DIR, '/');
 $site->serve($request);

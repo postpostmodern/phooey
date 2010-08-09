@@ -6,7 +6,12 @@
 class Request
 {
   
-  function __construct() {}
+  function __construct() 
+  {
+    if(get_magic_quotes_gpc()) {
+      $_POST = array_map('fix_magic_quotes', $_POST);
+    }
+  }
   
   public function get_path()
   {
@@ -30,7 +35,7 @@ class Request
   
   public function get_method()
   {
-    return array_key_exists('_method', $_POST) ? $_POST['_method'] : $_SERVER['REQUEST_METHOD'];
+    return array_key_exists('_method', $_POST) ? strtoupper($_POST['_method']) : $_SERVER['REQUEST_METHOD'];
   }
   
 }

@@ -4,22 +4,26 @@
 
 site_title: New Phooey Site
 
-doctype: XHTML 1.0 Strict
+doctype: HTML 5
 
 language: en-us
 
+favicon: true
+
+allowed_methods: 
+  - GET
+
 css:
-  - reset
-  - global
+  - [ all.css, all ]
 
 ie_css:
   ie6: lte IE 6
 
 jsapi: 
-  - [ jquery, 1.2 ]
+  - [ jquery, 1.4 ]
 
 js:
-  - global
+  - global.js
 
 meta:
   description: Phooey is a simple framework for mostly-static sites.

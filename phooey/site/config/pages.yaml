@@ -1,17 +1,19 @@
-# ---------------------------------------------------------------- #
-#   Each PAGE of the site gets described here.                     #
-# ---------------------------------------------------------------- #
-
-home:
+---
+home: 
   title: Home
-
-contact:
+contact: 
   title: Contact Us
-  action: process_contact_form
-  css:
+  actions: 
+    - 
+      - GET
+      - process_contact_form
+    - 
+      - POST
+      - process_contact_form
+  css: 
     - contact
-  vars:
+  vars: 
     to: 
       - Some One <someone@example.com>
-guide:
+guide: 
   title: Markup Guide
