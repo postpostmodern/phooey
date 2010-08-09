@@ -16,7 +16,7 @@ function install($src_path, $dest_dir, $overwrite)
 
 function install_dir($src_dir, $dest_dir, $overwrite)
 {
-  $dest_path = "$dest_dir/$src_path";
+  $dest_path = "$dest_dir/$src_dir";
   if(!is_dir($dest_path)) {
     echo("Creating dir $dest_path...\n");
     mkdir($dest_path, 0755, true);
@@ -65,7 +65,7 @@ function user_install()
 }
 
 
-require_once('phooey/system/spyc.php');
+require_once('phooey/system/inc/spyc.php');
 $files = Spyc::YAMLLoad('installer/files.yaml');
 
 $dest_dir = $argv[1];
