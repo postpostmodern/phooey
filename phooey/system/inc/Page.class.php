@@ -161,7 +161,7 @@ class Page
   
   public function set_vars($vars)
   {
-    $this->data['vars'] = array_merge_recursive($this->data['vars'], $vars);
+    $this->data['vars'] = array_merge_recursive_distinct($this->data['vars'], $vars);
   }
   
   // Content
