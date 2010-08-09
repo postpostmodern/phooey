@@ -1,24 +1,24 @@
 <h1>Contact Us</h1>
 <form action="/contact" method="post" accept-charset="utf-8" id="contact-form">
-  <div class="send"><button type="submit" name="send" value="Send">Send</button> <?php echo $vars['notice']; ?></div>
+  <div class="send"><button type="submit" name="send" value="Send">Send</button> [#notice#]</div>
   <fieldset id="sender"><legend>Your info:</legend>
     <div class="formrow">
       <label for="R_name">Your Name:</label>
-      <input type="text" name="mail[R_name]" id="R_name" value="<?php echo $vars['R_name']; ?>" class="text" />
+      <input type="text" name="mail[R_name]" id="R_name" value="[#R_name#]" class="text" />
     </div>
     <div class="formrow">
       <label for="R_from">Your Email:</label>
-      <input type="text" name="mail[R_from]" id="R_from" value="<?php echo $vars['R_from']; ?>" class="text" />
+      <input type="text" name="mail[R_from]" id="R_from" value="[#R_from#]" class="text" />
     </div>
   </fieldset>
   <fieldset id="message-details"><legend>Message:</legend>
     <div class="formrow">
       <label for="R_subject">Subject:</label>
-      <input type="text" name="mail[R_subject]" id="R_subject" value="<?php echo $vars['R_subject']; ?>" class="text" />
+      <input type="text" name="mail[R_subject]" id="R_subject" value="[#R_subject#]" class="text" />
     </div>
     <div class="formrow">
       <label for="R_message">Message: </label>
-      <textarea name="mail[R_message]" id="R_message" rows="7" cols="27"><?php echo $vars['R_message']; ?></textarea>
+      <textarea name="mail[R_message]" id="R_message" rows="7" cols="27">[#R_message#]</textarea>
     </div>
   </fieldset>
 </form>
