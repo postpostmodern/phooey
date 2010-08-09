@@ -385,7 +385,7 @@ class Markdown_Parser {
 		# *  List "b" is made of tags which are always block-level;
 		#
 		$block_tags_a_re = 'ins|del';
-		$block_tags_b_re = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|address|'.
+		$block_tags_b_re = 'p|div|section|nav|article|header|footer|h[1-6]|blockquote|pre|table|dl|ol|ul|address|'.
 						   'script|noscript|form|fieldset|iframe|math';
 
 		# Regular expression for the content of a block tag.
@@ -1730,7 +1730,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 	### HTML Block Parser ###
 	
 	# Tags that are always treated as block tags:
-	var $block_tags_re = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|address|form|fieldset|iframe|hr|legend';
+	var $block_tags_re = 'p|div|section|nav|article|header|footer|h[1-6]|blockquote|pre|table|dl|ol|ul|address|form|fieldset|iframe|hr|legend';
 	
 	# Tags treated as block tags only if the opening tag is alone on it's line:
 	var $context_block_tags_re = 'script|noscript|math|ins|del';
